@@ -1,0 +1,74 @@
+/* Giao diện nền và khung bao ngoài */
+.auth-body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 420px;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    background: #fff;
+}
+
+.auth-header {
+    text-align: center;
+    padding: 30px 20px 10px;
+}
+
+.auth-header img {
+    height: 55px;
+    margin-bottom: 15px;
+}
+
+/* Tùy chỉnh các ô nhập liệu */
+.auth-card .form-control {
+    border-radius: 10px;
+    padding: 12px 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #eee;
+    font-size: 14px;
+}
+
+.auth-card .form-control:focus {
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+    background-color: #fff;
+    border-color: #0d6efd;
+}
+
+.auth-card .input-group-text {
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    border: 1px solid #eee;
+}
+
+/* Nút bấm */
+.btn-auth {
+    border-radius: 10px;
+    padding: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.btn-auth:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+}
+
+.auth-link {
+    text-decoration: none;
+    font-weight: 600;
+    color: #0d6efd;
+}
+
+.auth-link:hover {
+    text-decoration: underline;
+}
