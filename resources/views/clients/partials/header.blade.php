@@ -6,8 +6,9 @@
             <a href="{{ route('home') }}" class="nav-link {{ request()->is('/') ? 'active' : '' }}"><i class="fas fa-home me-2"></i> Trang Chủ</a>
             <a href="{{ route('mua_tai_khoan') }}" class="nav-link {{ request()->is('mua_tai_khoan') ? 'active' : '' }}"><i class="fas fa-shopping-cart me-2"></i> Mua Tài Khoản</a>
             <a href="{{ route('lich_su_mua') }}" class="nav-link {{ request()->is('lich_su_mua') ? 'active' : '' }}"><i class="fas fa-history me-2"></i> Lịch Sử Mua Hàng</a>
+            <a href="{{ route('lich_su_nap') }}" class="nav-link {{ request()->is('lich_su_nap') ? 'active' : '' }}"><i class="fas fa-money-bill me-2"></i> Lịch Sử Nạp Tiền</a>
 
-            <div class="menu-title">Nạp Tiền</div>
+            <div class="menu-title">Nạp Tiền</div>  
             <a href="{{ route('nap_ngan_hang') }}" class="nav-link {{ request()->is('nap_ngan_hang') ? 'active' : '' }}"><i class="fas fa-university me-2"></i> Ngân Hàng</a>
             <a href="{{ route('nap_momo') }}" class="nav-link {{ request()->is('nap_momo') ? 'active' : '' }}"><i class="fas fa-credit-card me-2"></i> Nạp Momo</a>
 

@@ -81,7 +81,7 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-sm-4 text-muted">Tổng nạp:</div>
-                            <div class="col-sm-8 fw-bold text-success">{{ number_format($user->total_deposit ?? 0) }}đ</div>
+                            <div class="col-sm-8 fw-bold text-success">{{ number_format($user->total_recharge ?? 0) }}đ</div>
                         </div>
                         <div class="row mb-0">
                             <div class="col-sm-4 text-muted">Ngày tham gia:</div>

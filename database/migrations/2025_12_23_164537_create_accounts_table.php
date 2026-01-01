@@ -16,6 +16,7 @@ return new class extends Migration
         $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
         $table->string('acc_username');
         $table->string('acc_password');
+        $table->string('avatar')->nullable();
         $table->integer('xu_amount'); // Số xu trong acc
         $table->decimal('price', 15, 2);
         $table->integer('status')->default(0); // 0: Đang bán, 1: Đã bán

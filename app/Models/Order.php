@@ -10,11 +10,11 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'order_number',
+    protected $fillable = [     
         'user_id',
         'account_id',
         'total_price',
+        'status',
     ];
 
     protected $casts = [

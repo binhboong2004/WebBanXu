@@ -13,7 +13,7 @@
 
 <div class="card auth-card">
     <div class="auth-header text-center mt-4">
-        <a href="/"><img src="{{ asset('assets/clients/img/logo.png') }}" alt="Logo" style="max-width: 150px;"></a>
+        <a href="/"><img src="{{ asset('assets/clients/img/logotachnen.png') }}" alt="Logo" style="max-width: 150px;"></a>
         <h4 class="fw-bold mt-2">CHÀO MỪNG TRỞ LẠI</h4>
         <p class="text-muted small">Vui lòng đăng nhập để tiếp tục</p>
     </div>
@@ -54,6 +54,6 @@
 </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="{{ asset('assets/clients/js/custom.js') }}"></script>
+    <script src="{{ asset('assets/clients/js/login.js') }}"></script>
 </body>
 </html>

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Account;
 use App\Models\Category;
+use App\Models\Order;
 use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
@@ -161,5 +162,74 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         return view('clients.pages.huong_dan', compact('user'));
+    }
+
+    public function processBuy(Request $request)
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        $categoryId = $request->category_id;
+        $xuAmount = $request->xu_amount;
+        $quantity = (int)$request->quantity;
+
+        // 1. Kiểm tra tài khoản còn trong kho không (status = 0 là chưa bán)
+        $accounts = Account::where('category_id', $categoryId)
+            ->where('xu_amount', $xuAmount)
+            ->where('status', 0)
+            ->limit($quantity)
+            ->get();
+
+        if ($accounts->count() < $quantity) {
+            return response()->json(['success' => false, 'message' => 'Số lượng tài khoản trong kho không đủ!']);
+        }
+
+        // 2. Tính toán tổng tiền
+        $pricePerAcc = $accounts->first()->price;
+        $totalPrice = $pricePerAcc * $quantity;
+
+        if ($user->balance < $totalPrice) {
+            return response()->json(['success' => false, 'message' => 'Số dư không đủ. Vui lòng nạp thêm!']);
+        }
+
+        try {
+            // 3. Thực hiện giao dịch
+            DB::transaction(function () use ($user, $accounts, $totalPrice) {
+                // Trừ tiền người dùng
+                $user->decrement('balance', $totalPrice);
+
+                foreach ($accounts as $acc) {
+                    // Cập nhật trạng thái tài khoản đã bán
+                    $acc->update(['status' => 1]);
+
+                    // Tạo đơn hàng
+                    Order::create([
+                        'user_id' => $user->id,
+                        'account_id' => $acc->id,
+                        'total_price' => $acc->price,
+                    ]);
+                }
+            });
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Mua thành công ' . $quantity . ' tài khoản!',
+                'new_balance' => number_format($user->balance) . 'đ'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Lỗi hệ thống: ' . $e->getMessage()]);
+        }
+    }
+
+    public function lich_su_nap()
+    {
+        $user = Auth::user();
+
+        // Lấy lịch sử nạp của user hiện tại, sắp xếp mới nhất lên đầu
+        $recharges = \App\Models\RechargeHistory::where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('clients.pages.lich_su_nap', compact('user', 'recharges'));
     }
 }

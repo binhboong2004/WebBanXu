@@ -185,69 +185,55 @@ $(document).ready(function () {
     });
 
     // Tạo một container riêng để chứa hiệu ứng click
-    $('body').append('<div class="click-effect-container"></div>');
+    if ($('.click-effect-container').length === 0) {
+        $('body').append('<div class="click-effect-container"></div>');
+    }
 
-    $(window).on('click', function(e) {
+    $(window).on('click', function (e) {
         const container = $('.click-effect-container');
-        const count = 8; // Số lượng vòng tròn tỏa ra
-        const color = '#FF9C00'; // Màu sắc hiệu ứng
+        const count = 10; // Số lượng trái tim tỏa ra
+        const color = '#ff69b4'; // Màu hồng
 
         for (let i = 0; i < count; i++) {
-            const size = Math.random() * 10 + 5; // Kích thước ngẫu nhiên từ 5-15px
-            const circle = $('<div class="burst-circle"></div>');
-            
-            circle.css({
-                width: size,
-                height: size,
-                top: e.clientY - size / 2,
-                left: e.clientX - size / 2,
-                background: color,
-                opacity: 1
+            const size = Math.random() * 8 + 6; // Kích thước ngẫu nhiên
+            const heart = $('<div class="burst-heart"></div>');
+
+            heart.css({
+                width: size, height: size,
+                top: e.clientY, left: e.clientX,
+                background: color, opacity: 1
             });
 
-            container.append(circle);
+            container.append(heart);
 
-            // Tính toán hướng tỏa ra ngẫu nhiên
-            const angle = (i * (360 / count)) * (Math.PI / 180);
-            const distance = Math.random() * 80 + 40; // Khoảng cách tỏa ra
-            
+            const angle = (i * (360 / count) + Math.random() * 30) * (Math.PI / 180);
+            const distance = Math.random() * 100 + 50;
             const moveX = Math.cos(angle) * distance;
             const moveY = Math.sin(angle) * distance;
 
-            // Chuyển động tỏa ra và biến mất
-            circle.animate({
+            heart.animate({
                 top: `+=${moveY}px`,
                 left: `+=${moveX}px`,
                 opacity: 0
-            }, 600, 'swing', function() {
-                $(this).remove(); // Xóa sau khi hoàn tất
-            });
+            }, 800, 'swing', function () { $(this).remove(); });
         }
 
-        // Tạo thêm một vòng tròn lớn mờ dần tại tâm click (giống ảnh bạn gửi)
-        const centerCircle = $('<div class="burst-circle"></div>');
-        centerCircle.css({
-            width: 20,
-            height: 20,
-            top: e.clientY - 10,
-            left: e.clientX - 10,
-            border: `2px solid ${color}`,
-            background: 'none',
+        // Vòng tròn ripple lan tỏa
+        const ripple = $('<div class="ripple-pink"></div>');
+        ripple.css({
+            width: 10, height: 10,
+            top: e.clientY - 5, left: e.clientX - 5,
             opacity: 1
         });
-        container.append(centerCircle);
-        
-        centerCircle.animate({
-            width: 100,
-            height: 100,
-            top: e.clientY - 50,
-            left: e.clientX - 50,
+        container.append(ripple);
+
+        ripple.animate({
+            width: 100, height: 100,
+            top: e.clientY - 50, left: e.clientX - 50,
             opacity: 0
-        }, 500, function() {
-            $(this).remove();
-        });
+        }, 500, function () { $(this).remove(); });
     });
-    
+
 });
 
 // 1. Chức năng Lọc theo Danh mục (Category)

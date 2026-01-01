@@ -1,3 +1,4 @@
+/* --- BIẾN TOÀN CỤC --- */
 :root {
     --sidebar-bg: #2c1616;
     --sidebar-hover: #0D6EFD;
@@ -5,26 +6,54 @@
     --card-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
+/* --- CẤU HÌNH CHUNG --- */
 body {
     background-color: var(--main-bg);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
-/* Sidebar */
+/* --- SIDEBAR (THANH MENU BÊN TRÁI) --- */
 .sidebar {
     width: 260px;
     height: 100vh;
     position: fixed;
+    top: 0;
+    left: 0;
     background: var(--sidebar-bg);
     color: white;
     z-index: 1000;
+    /* Giải quyết vấn đề tràn menu: Cho phép cuộn bên trong sidebar */
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Tùy chỉnh thanh cuộn cho Sidebar (đẹp hơn) */
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+.sidebar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
+.sidebar::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 10px;
+}
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--sidebar-hover);
 }
 
 .sidebar .logo-area {
-    padding: 0px;
+    padding: 15px;
     background: white;
     text-align: center;
     margin-bottom: 10px;
+    position: sticky; /* Giữ logo ở đầu khi cuộn menu */
+    top: 0;
+    z-index: 10;
 }
 
 .sidebar .nav-link {
@@ -32,12 +61,30 @@ body {
     padding: 12px 20px;
     border-bottom: 1px solid #3d2a2a;
     transition: 0.3s;
+    position: relative;
+    overflow: hidden;
 }
 
-.sidebar .nav-link:hover, .sidebar .nav-link.active {
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
     background: var(--sidebar-hover);
     color: white;
     font-weight: bold;
+}
+
+/* Hiệu ứng gạch chân dưới menu khi hover */
+.sidebar .nav-link::before {
+    content: "";
+    position: absolute;
+    left: -100%;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: #fff;
+    transition: 0.3s;
+}
+.sidebar .nav-link:hover::before {
+    left: 0;
 }
 
 .sidebar .menu-title {
@@ -48,26 +95,32 @@ body {
     letter-spacing: 1px;
 }
 
-/* Main Content */
+/* --- NỘI DUNG CHÍNH (MAIN CONTENT) --- */
 .main-content {
-    margin-left: 260px;
+    margin-left: 260px; /* Bằng độ rộng sidebar */
     padding: 0;
+    min-height: 100vh;
+    animation: fadeInUp 0.6s ease-out;
 }
 
 .top-navbar {
-    background: white;
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(10px);
     padding: 15px 30px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 999;
 }
 
 .content-wrapper {
     padding: 25px;
 }
 
-/* Auth Pages */
+/* --- TRANG AUTH (LOGIN/REGISTER) --- */
 .auth-container {
     height: 100vh;
     display: flex;
@@ -81,17 +134,17 @@ body {
     background: white;
     padding: 40px;
     border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
-/* Custom Dropdown Styling */
+/* --- DROPDOWN NGƯỜI DÙNG --- */
 .user-info {
     cursor: pointer;
     padding: 5px 10px;
     border-radius: 20px;
     transition: 0.3s;
+    position: relative;
 }
-
 .user-info:hover {
     background-color: #f0f2f5;
 }
@@ -99,153 +152,95 @@ body {
 .dropdown-menu {
     font-size: 14px;
     min-width: 200px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+    border: none !important;
+    margin-top: 10px !important;
 }
-/* Hiệu ứng chung cho tất cả các mục trong menu */
+
 .dropdown-item {
-    transition: all 0.3s ease; /* Tạo độ trễ chuyển động mượt mà */
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     padding: 10px 20px;
     border-radius: 4px;
     margin: 0 5px;
-}
-
-/* Khi trỏ chuột vào bất kỳ mục nào */
-.dropdown-item:hover {
-    background-color: #f0f7ff !important; /* Đổi màu nền nhẹ */
-    color: #0d6efd !important;         /* Đổi màu chữ sang xanh */
-    padding-left: 25px !important;     /* Chuyển động nhích sang phải */
-}
-
-/* Đảm bảo icon cũng đổi màu theo */
-.dropdown-item:hover i {
-    transform: scale(1.1);             /* Icon to lên một chút */
-    transition: 0.3s;
-}
-
-/* Xử lý khoảng cách để không bị mất hover */
-.user-info.dropdown {
-    position: relative;
-}
-
-.user-info .dropdown-menu {
-    /* Đẩy menu sát lên trên để không có khoảng trống với avatar */
-    margin-top: 0 !important; 
-    top: 100%;
-    z-index: 9999; /* Đảm bảo menu luôn nằm trên cùng */
-}
-
-/* Tạo một vùng đệm giả để chuột di chuyển mượt mà */
-.user-info .dropdown-menu::before {
-    content: "";
-    position: absolute;
-    top: -15px;
-    left: 0;
-    width: 100%;
-    height: 15px;
-    display: block;
-}
-
-.dropdown-item {
     cursor: pointer;
-    z-index: 10000;
 }
-
-/* Hiệu ứng cho vùng Avatar */
-.position-relative:hover #userAvatarMain {
-    opacity: 0.8;
-    transition: 0.3s;
+.dropdown-item:hover {
+    background-color: #f0f7ff !important;
+    color: #0d6efd !important;
+    padding-left: 25px !important;
 }
-
-.btn-primary.position-absolute {
-    border: 2px solid #fff;
-    transition: transform 0.2s ease-in-out;
-}
-
-.btn-primary.position-absolute:hover {
+.dropdown-item:hover i {
     transform: scale(1.1);
-    background-color: #0056b3;
 }
 
-/* 1. Hiệu ứng xuất hiện khi tải trang */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.main-content {
-    animation: fadeInUp 0.6s ease-out;
-}
-
-/* 2. Hiệu ứng cho các thẻ Card sản phẩm */
+/* --- HIỆU ỨNG TƯƠNG TÁC (CARDS, BUTTONS, ICONS) --- */
 .card {
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    border: 1px solid rgba(0,0,0,0.05) !important;
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    box-shadow: var(--card-shadow);
 }
-
 .card:hover {
-    transform: translateY(-10px); /* Bay nhẹ lên */
-    box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1) !important;
     border-color: var(--sidebar-hover) !important;
 }
 
-/* 3. Hiệu ứng cho nút bấm (Button) */
 .btn {
-    transition: all 0.3s active;
+    transition: all 0.2s ease;
     position: relative;
     overflow: hidden;
 }
-
 .btn:active {
-    transform: scale(0.95); /* Hiệu ứng nhấn nút */
+    transform: scale(0.95);
 }
 
-/* 4. Hiệu ứng kính mờ cho Top Navbar */
-.top-navbar {
-    background: rgba(255, 255, 255, 0.8) !important;
-    backdrop-filter: blur(10px); /* Làm mờ hậu cảnh */
-    position: sticky;
-    top: 0;
-    z-index: 999;
-}
-
-/* 5. Hiệu ứng Menu Sidebar */
-.sidebar .nav-link {
-    position: relative;
-    overflow: hidden;
-}
-
-.sidebar .nav-link::before {
-    content: "";
-    position: absolute;
-    left: -100%;
-    bottom: 0;
-    width: 100%;
-    height: 2px;
-    background: #fff;
-    transition: 0.3s;
-}
-
-.sidebar .nav-link:hover::before {
-    left: 0;
-}
-
-/* 6. Hiệu ứng cho icon khi trỏ vào */
 .nav-link i, .user-info i {
     transition: transform 0.3s ease;
 }
-
 .nav-link:hover i {
     transform: rotate(15deg) scale(1.2);
 }
 
-/* Container cho các hiệu ứng để không ảnh hưởng đến layout */
+/* --- THANH THÔNG BÁO (ANNOUNCEMENT) --- */
+.announcement-wrapper {
+    position: fixed;
+    top: -200px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    z-index: 9999;
+    transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    padding: 0 20px;
+}
+.announcement-wrapper.show {
+    top: 20px;
+}
+.announcement-content {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 900px;
+    color: white;
+    padding: 15px 25px;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+}
+.icon-box {
+    background: rgba(255, 255, 255, 0.2);
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+}
+.icon-box i {
+    animation: ring 2s infinite ease-in-out;
+}
+
+/* --- HIỆU ỨNG CLICK (HEARTS & RIPPLES) --- */
 .click-effect-container {
     pointer-events: none;
     position: fixed;
@@ -255,11 +250,63 @@ body {
     height: 100%;
     z-index: 999999;
 }
+.burst-heart {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #ff69b4;
+    transform: rotate(-45deg);
+}
+.burst-heart::before, .burst-heart::after {
+    content: "";
+    width: 100%; height: 100%;
+    background: inherit;
+    border-radius: 50%;
+    position: absolute;
+}
+.burst-heart::before { top: -50%; left: 0; }
+.burst-heart::after { top: 0; left: 50%; }
 
-.burst-circle {
+.ripple-pink {
     position: absolute;
     border-radius: 50%;
-    background: #FF9C00; /* Màu cam giống mã của bạn */
-    pointer-events: none;
-    opacity: 0;
+    border: 2px solid #ff69b4;
+}
+
+/* --- KEYFRAMES (ANIMATIONS) --- */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+.animation-blink { animation: blink 1s infinite; }
+
+@keyframes ring {
+    0%, 100% { transform: rotate(0); }
+    10%, 30% { transform: rotate(15deg); }
+    20%, 40% { transform: rotate(-15deg); }
+}
+
+/* --- RESPONSIVE (MÀN HÌNH NHỎ) --- */
+@media (max-width: 768px) {
+    .sidebar {
+        left: -260px; /* Ẩn sidebar trên mobile mặc định */
+        transition: 0.3s;
+    }
+    .sidebar.show {
+        left: 0;
+    }
+    .main-content {
+        margin-left: 0;
+    }
+    .message-text {
+        font-size: 0.9rem;
+    }
+    .announcement-wrapper.show {
+        top: 10px;
+    }
 }

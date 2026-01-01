@@ -17,6 +17,7 @@ return new class extends Migration
         $table->string('password');
         $table->string('email')->unique();
         $table->string('full_name')->nullable();
+        $table->decimal('total_recharge', 15, 2)->default(0);
         $table->decimal('balance', 15, 2)->default(0); // Số dư tài khoản
         $table->string('role')->default('user'); // admin hoặc user
         $table->integer('status')->default(1); // 1: active, 0: banned

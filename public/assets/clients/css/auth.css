@@ -1,11 +1,34 @@
 /* Giao diện nền và khung bao ngoài */
 .auth-body {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0;
+    position: relative; /* Cần thiết để lớp phủ hoạt động */
+    overflow: hidden;
+    /* Ảnh nền mặc định nếu ảnh kia không tải được */
+    background: #c3cfe2; 
+}
+
+/* Tạo lớp nền ảnh mờ phía sau */
+.auth-body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Đường dẫn đến ảnh của bạn */
+    background-image: url('../img/anhnenlogin.jpg'); 
+    background-size: cover;
+    background-position: center;
+    /* Độ mờ của ảnh (Blur) */
+    filter: blur(5px); 
+    /* Lớp phủ tối để chữ dễ đọc hơn (tùy chọn) */
+    background-color: rgba(0, 0, 0, 0.2); 
+    z-index: -1;
+    transform: scale(1.1); /* Tránh lộ viền trắng khi blur */
 }
 
 .auth-card {
@@ -13,10 +36,13 @@
     max-width: 420px;
     border: none;
     border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-    background: #fff;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2); /* Đậm hơn một chút để nổi bật trên ảnh */
+    background: rgba(255, 255, 255, 0.95); /* Trắng đục để thấy nhẹ nền phía sau */
+    backdrop-filter: blur(10px); /* Hiệu ứng kính mờ cho khung đăng nhập */
+    z-index: 1;
 }
 
+/* Các phần còn lại giữ nguyên... */
 .auth-header {
     text-align: center;
     padding: 30px 20px 10px;

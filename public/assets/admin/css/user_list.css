@@ -1,0 +1,297 @@
+/* Card Người dùng */
+.user-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid transparent;
+    position: relative;
+    height: 100%;
+}
+
+.user-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    border-color: #eef2ff;
+}
+
+.user-avatar-wrap {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 15px;
+    position: relative;
+}
+
+.user-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #f1f5f9;
+}
+
+.user-name {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 2px;
+    color: #1e293b;
+}
+
+.user-email {
+    font-size: 13px;
+    color: #94a3b8;
+    margin-bottom: 12px;
+    display: block;
+}
+
+.role-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.role-admin {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+.role-user {
+    background: #dcfce7;
+    color: #22c55e;
+}
+
+.user-footer {
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.verify-status {
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.dot-red {
+    background: #ef4444;
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+}
+
+.dot-green {
+    background: #22c55e;
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+}
+
+.more-btn {
+    color: #cbd5e1;
+    cursor: pointer;
+    padding: 5px;
+    transition: 0.2s;
+}
+
+.more-btn:hover {
+    color: #64748b;
+}
+
+.content-body {
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-top: 20px;
+}
+
+/* ===== MENU 3 CHẤM ===== */
+.more-menu {
+    position: absolute;
+    bottom: 35px;
+    right: 0;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 180px;
+    display: none;
+    z-index: 10;
+}
+
+.more-menu.active {
+    display: block;
+}
+
+.more-menu div {
+    padding: 10px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.more-menu div:hover {
+    background: #f1f5f9;
+}
+
+.more-menu .danger {
+    color: #ef4444;
+}
+
+.preview-box {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #f8fafc;
+    border: 2px dashed #cbd5e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    overflow: hidden;
+    transition: all 0.3s;
+}
+
+.preview-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.preview-box i {
+    font-size: 40px;
+    color: #4361ee;
+}
+
+.product-preview-box {
+    width: 120px;
+    height: 120px;
+    border-radius: 15px;
+    background: #f8fafc;
+    border: 2px dashed #cbd5e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    overflow: hidden;
+    transition: all 0.3s;
+}
+
+.product-preview-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-preview-box i {
+    font-size: 40px;
+    color: #94a3b8;
+}
+
+.detail-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    margin-bottom: 25px;
+    border: 1px solid #f1f5f9;
+}
+
+.info-label {
+    color: #94a3b8;
+    font-size: 13px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-value {
+    font-weight: 600;
+    color: #1e293b;
+    font-size: 15px;
+}
+
+.product-icon-box {
+    width: 70px;
+    height: 70px;
+    background: #eef2ff;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+}
+/* Container của Dropup */
+.dropup {
+    position: relative;
+}
+
+/* Trạng thái mặc định của Menu (Đang đóng) */
+.dropup .dropdown-menu {
+    display: block; /* Giữ block để chạy animation */
+    visibility: hidden;
+    opacity: 0;
+    bottom: 100%;
+    top: auto;
+    margin-bottom: 10px !important;
+    min-width: 200px;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    padding: 8px;
+    
+    /* Trạng thái bắt đầu của hiệu ứng hiện lên: hơi thấp xuống */
+    transform: translateY(15px); 
+    
+    /* QUAN TRỌNG: Không để transition ở đây để khi tắt nó biến mất ngay lập tức */
+    transition: none; 
+}
+
+/* Trạng thái khi hiện lên (Show) */
+.dropup .dropdown-menu.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    
+    /* CHỈ CHẠY ANIMATION KHI HIỆN: 
+       Hiệu ứng trượt lên và nảy nhẹ (backOut) */
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                opacity 0.2s ease;
+}
+
+/* CSS cho các item bên trong để đồng bộ độ đẹp */
+.dropup .dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #4a5568;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+}
+
+.dropup .dropdown-item:hover {
+    background-color: #f7fafc;
+    color: #3182ce;
+}
+
+.dropup .dropdown-divider {
+    margin: 6px 0;
+    border-top: 1px solid #edf2f7;
+}
+
+/* Icon trong menu */
+.dropup .dropdown-item i {
+    width: 20px;
+    margin-right: 10px;
+    font-size: 16px;
+}

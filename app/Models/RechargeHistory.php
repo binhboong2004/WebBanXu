@@ -17,6 +17,7 @@ class RechargeHistory extends Model
         'amount',
         'method',
         'status',
+        'transaction_note',
     ];
 
     protected $casts = [

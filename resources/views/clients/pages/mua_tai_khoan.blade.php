@@ -98,7 +98,7 @@
                             </td>
                             <td class="text-center">
                                 <button class="btn btn-warning btn-sm px-3 fw-bold shadow-sm"
-                                    onclick="openBuyModal('{{ $group->category->name }} ({{ number_format($group->xu_amount) }} Xu)', '{{ $group->price }}', 'qty_{{ $index }}')">
+                                    onclick="openBuyModal('{{ $group->category->name }}', '{{ $group->price }}', 'qty_{{ $index }}', '{{ $group->category_id }}', '{{ $group->xu_amount }}')">
                                     <i class="fas fa-shopping-cart me-1"></i> MUA NGAY
                                 </button>
                             </td>

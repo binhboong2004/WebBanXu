@@ -1,51 +1,147 @@
+window.showToast = function (message, type = 'success') {
+    // Xóa toast cũ nếu có để tránh chồng chéo
+    const oldToast = document.querySelector('.custom-toast');
+    if (oldToast) oldToast.remove();
+
+    const toast = document.createElement('div');
+    toast.className = `custom-toast ${type}`;
+    
+    // Chọn icon phù hợp
+    const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle';
+    const bgColor = type === 'success' ? '#2ecc71' : '#e74c3c';
+
+    toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        min-width: 300px;
+        background: white;
+        color: #333;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-left: 5px solid ${bgColor};
+        transform: translateX(120%);
+        transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    `;
+
+    toast.innerHTML = `
+        <div style="color: ${bgColor}; font-size: 24px;">
+            <i class="fas ${icon}"></i>
+        </div>
+        <div style="flex: 1;">
+            <div style="font-weight: bold; color: #2c3e50;">Thông báo hệ thống</div>
+            <div style="font-size: 14px; color: #7f8c8d;">${message}</div>
+        </div>
+        <div class="toast-progress" style="
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            width: 100%;
+            background: rgba(0,0,0,0.05);
+        ">
+            <div style="
+                height: 100%;
+                width: 100%;
+                background: ${bgColor};
+                animation: toastProgress 3s linear forwards;
+            "></div>
+        </div>
+    `;
+
+    document.body.appendChild(toast);
+
+    // Thêm keyframe cho thanh tiến trình nếu chưa có
+    if (!document.getElementById('toast-styles')) {
+        const style = document.createElement('style');
+        style.id = 'toast-styles';
+        style.innerHTML = `
+            @keyframes toastProgress {
+                from { width: 100%; }
+                to { width: 0%; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    // Hiển thị toast
+    setTimeout(() => {
+        toast.style.transform = 'translateX(0)';
+    }, 100);
+
+    // Tự động đóng
+    setTimeout(() => {
+        toast.style.transform = 'translateX(120%)';
+        setTimeout(() => toast.remove(), 500);
+    }, 3000);
+};
+
 document.addEventListener('DOMContentLoaded', function () {
     // 1. Quản lý Modal Mua Hàng
     const modalElement = document.getElementById('confirmBuyModal');
     const buyModal = modalElement ? new bootstrap.Modal(modalElement) : null;
 
     // Tìm và sửa lại hàm openBuyModal trong main.js
-    window.openBuyModal = function (name, price, qtyInputId) {
+    // 1. Hàm mở Modal và lưu trữ thông tin sản phẩm
+    window.openBuyModal = function (name, price, qtyInputId, categoryId, xuAmount) {
         const qtyInput = document.getElementById(qtyInputId);
-        const quantity = qtyInput ? parseInt(qtyInput.value) : 1;
+        const quantity = parseInt(qtyInput.value) || 1;
         const totalPrice = price * quantity;
 
-        const nameDisplay = document.getElementById('modalProdName');
-        const priceDisplay = document.getElementById('modalProdPrice');
+        // Hiển thị lên Modal
+        document.getElementById('modalProdName').innerText = name + " (Số lượng: " + quantity + ")";
+        document.getElementById('modalProdPrice').innerText = new Intl.NumberFormat('vi-VN').format(totalPrice) + "đ";
 
-        if (nameDisplay && priceDisplay) {
-            // Hiển thị tên kèm số lượng
-            nameDisplay.innerText = name + " (Số lượng: " + quantity + ")";
+        // Lưu biến tạm để gửi lên server
+        window.currentBuyData = {
+            category_id: categoryId,
+            xu_amount: xuAmount,
+            quantity: quantity
+        };
 
-            // Định dạng tiền tệ VND khi hiển thị
-            priceDisplay.innerText = new Intl.NumberFormat('vi-VN').format(totalPrice) + "đ";
-
-            // Lưu thông tin tạm thời để xử lý mua (nếu cần)
-            window.currentTransaction = {
-                name: name,
-                totalPrice: totalPrice,
-                quantity: quantity
-            };
-
-            const modalElement = document.getElementById('confirmBuyModal');
-            const buyModalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
-            buyModalInstance.show();
-        }
+        bootstrap.Modal.getOrCreateInstance(document.getElementById('confirmBuyModal')).show();
     };
 
-    // Sửa lại submitPurchase để dùng Toast cho chuyên nghiệp
+    // 2. Hàm gửi yêu cầu mua hàng
     window.submitPurchase = function () {
-        const transaction = window.currentTransaction;
-        const modalElement = document.getElementById('confirmBuyModal');
-        const buyModalInstance = bootstrap.Modal.getInstance(modalElement);
+        const btn = event.target;
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> ĐANG XỬ LÝ...';
 
-        buyModalInstance.hide();
-
-        // Hiển thị thông báo thành công (Hàm showToast đã có sẵn trong main.js của bạn)
-        if (typeof showToast === "function") {
-            showToast("Đang xử lý đơn hàng " + transaction.name + " số lượng " + transaction.quantity);
-        } else {
-            alert("Đang xử lý giao dịch...");
-        }
+        $.ajax({
+            url: '/buy-account',
+            method: 'POST', // Đổi type thành method cho chắc chắn
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                category_id: window.currentBuyData.category_id,
+                xu_amount: window.currentBuyData.xu_amount,
+                quantity: window.currentBuyData.quantity
+            },
+            success: function (res) {
+                if (res.success) {
+                    if (typeof showToast === "function") showToast(res.message, 'success');
+                    setTimeout(() => { location.reload(); }, 1500);
+                } else {
+                    if (typeof showToast === "function") showToast(res.message, 'error');
+                    btn.disabled = false;
+                    btn.innerText = 'XÁC NHẬN MUA';
+                }
+            },
+            error: function (xhr) {
+                console.error("Lỗi chi tiết:", xhr.responseText);
+                if (typeof showToast === "function") showToast('Lỗi kết nối hoặc phiên đăng nhập hết hạn', 'error');
+                btn.disabled = false;
+                btn.innerText = 'XÁC NHẬN MUA';
+            }
+        });
     };
 
     // 2. XỬ LÝ LỖI HOVER: Menu biến mất khi di chuyển chuột
@@ -183,36 +279,52 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // 2. Thông báo khi nạp thẻ hoặc mua hàng (Toast thay vì Alert thô cứng)
-    window.showToast = function (message, type = 'success') {
-        const toastContainer = document.createElement('div');
-        toastContainer.style.cssText = `
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 15px 25px;
-            background: ${type === 'success' ? '#28a745' : '#dc3545'};
-            color: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            z-index: 9999;
-            animation: fadeInUp 0.5s ease;
-        `;
-        toastContainer.innerText = message;
-        document.body.appendChild(toastContainer);
 
-        setTimeout(() => {
-            toastContainer.style.opacity = '0';
-            setTimeout(() => toastContainer.remove(), 500);
-        }, 3000);
-    };
-
-    // Thay thế hàm submitPurchase cũ bằng showToast cho "xịn"
     const oldSubmit = window.submitPurchase;
     window.submitPurchase = function () {
-        const prodName = document.getElementById('modalProdName').innerText;
-        const buyModal = bootstrap.Modal.getInstance(document.getElementById('confirmBuyModal'));
-        buyModal.hide();
-        showToast("Đã mua thành công: " + prodName);
+        const btn = event.target;
+        const originalText = btn.innerText;
+
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> ĐANG XỬ LÝ...';
+
+        $.ajax({
+            url: '/buy-account',
+            type: 'POST',
+            data: {
+                ...window.currentBuyData,
+                _token: $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (res) {
+                if (res.success) {
+                    // Kiểm tra xem showToast có tồn tại trước khi gọi để tránh lỗi vỡ code
+                    if (typeof showToast === "function") {
+                        showToast(res.message, 'success');
+                    } else {
+                        alert(res.message);
+                    }
+
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    if (typeof showToast === "function") {
+                        showToast(res.message, 'error');
+                    } else {
+                        alert(res.message);
+                    }
+                    btn.disabled = false;
+                    btn.innerText = originalText;
+                }
+            },
+            error: function (xhr) {
+                console.error(xhr.responseText);
+                if (typeof showToast === "function") {
+                    showToast('Có lỗi xảy ra, vui lòng thử lại!', 'error');
+                }
+                btn.disabled = false;
+                btn.innerText = originalText;
+            }
+        });
     };
 });
+
+
