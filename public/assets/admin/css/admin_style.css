@@ -219,3 +219,30 @@ body {
     margin-right: 20px;
     margin-top: 20px;
 }
+
+svg {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Hoặc cụ thể cho các icon font-awesome nếu bạn dùng bản SVG */
+.fas,
+.fab {
+    display: inline-block;
+    width: 1em;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: #fff !important;
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+.product-preview-box {
+    transition: all 0.3s ease;
+}
+
+.product-preview-box:hover {
+    border-color: #3b82f6 !important; 
+}

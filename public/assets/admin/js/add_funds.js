@@ -1,31 +1,30 @@
-document.getElementById('addFundsForm')?.addEventListener('submit', function(e) {
-    e.preventDefault();
+document.addEventListener('DOMContentLoaded', function() {
+    const addFundsForm = document.getElementById('addFundsForm');
+    const submitBtn = document.getElementById('submitBtnFunds');
 
-    // Lấy giá trị từ form
-    const userId = document.getElementById('user_id').value;
-    const amount = document.getElementById('amount').value;
-    const method = document.getElementById('method').value;
-    const note = document.getElementById('note').value;
+    if (addFundsForm) {
+        addFundsForm.addEventListener('submit', function(e) {
+            
+            // 1. Nếu nút đã bị vô hiệu hóa (đang xử lý), ngăn không cho click tiếp
+            if (submitBtn.disabled) {
+                e.preventDefault();
+                return false;
+            }
 
-    // Lấy thời gian hiện tại chuẩn định dạng MySQL
-    const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
+            // 2. Lấy giá trị để log (tùy chọn)
+            const userId = document.getElementById('user_id').value;
+            const amount = document.getElementById('amount').value;
+            console.log(`Đang thực hiện nạp ${amount} cho User ID: ${userId}`);
 
-    // Tạo object mô phỏng một dòng trong bảng 'recharge_history'
-    const newHistoryEntry = {
-        id: "Tự động tăng",
-        user_id: userId,
-        amount: parseFloat(amount).toFixed(2),
-        method: method,
-        status: 1, // Trạng thái thành công
-        created_at: now,
-        updated_at: now
-    };
+            // 3. Vô hiệu hóa nút bấm ngay lập tức
+            submitBtn.disabled = true;
 
-    console.log("Dữ liệu gửi lên server:", newHistoryEntry);
+            // 4. Thay đổi nội dung nút để người dùng chờ
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Đang xử lý nạp tiền...';
+            submitBtn.classList.add('opacity-75');
 
-    // Hiển thị thông báo (Phần này sau này bạn thay bằng gọi API PHP)
-    alert(`Đã cộng ${amount}đ cho User ID ${userId} thành công!`);
-    
-    // Reset form sau khi gửi
-    this.reset();
+            // Cho phép form gửi đi thực tế đến server
+            return true;
+        });
+    }
 });

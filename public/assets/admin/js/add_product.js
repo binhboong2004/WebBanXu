@@ -3,48 +3,46 @@ document.addEventListener('DOMContentLoaded', function() {
     const productImageShow = document.getElementById('productImageShow');
     const placeholderIcon = document.getElementById('placeholderIcon');
     const form = document.getElementById('addProductForm');
+    const submitBtn = document.getElementById('submitBtn');
 
-    // Xử lý xem trước ảnh khi chọn file
-    fileInput.addEventListener('change', function() {
-        const file = this.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                productImageShow.src = e.target.result;
-                productImageShow.classList.remove('d-none');
-                placeholderIcon.classList.add('d-none');
+    // 1. Xử lý xem trước ảnh khi chọn file
+    if (fileInput) {
+        fileInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    productImageShow.src = e.target.result;
+                    productImageShow.classList.remove('d-none');
+                    placeholderIcon.classList.add('d-none');
+                }
+                reader.readAsDataURL(file);
+            } else {
+                productImageShow.classList.add('d-none');
+                placeholderIcon.classList.remove('d-none');
             }
-            reader.readAsDataURL(file);
-        } else {
-            productImageShow.classList.add('d-none');
-            placeholderIcon.classList.remove('d-none');
-        }
-    });
+        });
+    }
 
-    // Xử lý lưu sản phẩm
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
+    // 2. Xử lý ngăn chặn Double Click (Click nhiều lần)
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            // Nếu nút đã bị vô hiệu hóa, ngăn không cho submit nữa
+            if (submitBtn.disabled) {
+                e.preventDefault();
+                return false;
+            }
 
-        // Định dạng tiền tệ đơn giản cho giá
-        const priceValue = document.getElementById('prodPrice').value;
-        const formattedPrice = new Intl.NumberFormat('vi-VN').format(priceValue) + "đ";
+            // Ngay lập tức vô hiệu hóa nút bấm
+            submitBtn.disabled = true;
+            
+            // Thay đổi giao diện nút để báo hiệu cho người dùng
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Đang lưu...';
+            submitBtn.style.opacity = '0.7';
+            submitBtn.style.cursor = 'not-allowed';
 
-        const newProduct = {
-            name: document.getElementById('prodName').value,
-            category: document.getElementById('prodCategory').value,
-            price: formattedPrice,
-            stock: parseInt(document.getElementById('prodStock').value),
-            image: productImageShow.classList.contains('d-none') ? "img/default-product.png" : productImageShow.src,
-            isAvailable: document.getElementById('prodStatus').value === "true"
-        };
-
-        // Ghi log dữ liệu (Sau này sẽ thay bằng gọi API fetch/axios)
-        console.log("Sản phẩm mới đã tạo:", newProduct);
-        
-        alert("Thêm sản phẩm thành công!");
-        
-        // Chuyển hướng về danh sách sản phẩm
-        window.location.href = 'product_list.html';
-    });
-
+            // Cho phép form gửi đi theo cách mặc định lên Laravel
+            return true;
+        });
+    }
 });

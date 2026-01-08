@@ -57,11 +57,11 @@ Route::middleware(['auth.custom'])->group(function () {
     Route::post('/buy-account', [ProfileController::class, 'processBuy'])->name('buy.account');
     Route::get('/lich_su_nap', [ProfileController::class, 'lich_su_nap'])->name('lich_su_nap');
 });
-
-//ROUTE ADMIN
-Route::prefix('admin')->name('admin.')->group(function () {
+// ROUTE ADMIN
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     // Trang chủ thống kê
     Route::get('/dashboard', [AdminController::class, 'home'])->name('dashboard');
+    
     // Quản lý Người dùng
     Route::get('/user_list', [UserController::class, 'user_list'])->name('user_list');
     Route::delete('/user_list/delete/{id}', [UserController::class, 'delete_user'])->name('user_delete');
@@ -71,7 +71,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::prefix('category')->name('categories.')->group(function () {
         Route::get('/list', [CategoryController::class, 'category_list'])->name('category_list');
         Route::get('/add', [CategoryController::class, 'add_category'])->name('add_category');
-        Route::post('/store', [CategoryController::class, 'store_category'])->name('store'); // Cần thêm dòng này
+        Route::post('/store', [CategoryController::class, 'store_category'])->name('store');
         Route::delete('/delete/{id}', [CategoryController::class, 'delete_category'])->name('delete_category');
         Route::get('/edit/{id}', [CategoryController::class, 'edit_category'])->name('edit_category');
         Route::post('/update/{id}', [CategoryController::class, 'update_category'])->name('update_category');

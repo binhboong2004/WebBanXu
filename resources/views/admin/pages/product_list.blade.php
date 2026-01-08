@@ -50,7 +50,7 @@
                                     <i class="fas fa-ellipsis-v"></i>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-end animated fadeIn mb-2 shadow border-0">
-                                    <form action="{{ route('admin.products.delete', $item->id) }}" method="POST" onsubmit="return confirm('Xóa tài khoản này?')">
+                                    <form action="{{ route('admin.products.delete', $item->id) }}" method="POST" onsubmit="return confirm('Bạn muốn xóa tài khoản này?')">
                                         @csrf
                                         @method('DELETE') {{-- Giả lập phương thức DELETE --}}
                                         <button type="submit" class="dropdown-item text-danger small">
