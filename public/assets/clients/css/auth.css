@@ -98,3 +98,26 @@
 .auth-link:hover {
     text-decoration: underline;
 }
+
+.mb-3 .form-control:focus~label,
+.mb-3 .form-control:valid~label{
+    transform: translateY(-20px);
+    color: #3679ff;
+    font-size: 14px;
+    background: #e8e8e8;
+}
+/*Checkbox mật khẩu*/
+#togglePassword {
+    background-color: #f8f9fa;
+    border-left: none;
+    color: #6c757d;
+    transition: color 0.3s ease;
+}
+
+#togglePassword:hover {
+    color: #0d6efd;
+}
+
+#loginPass {
+    border-right: none;
+}

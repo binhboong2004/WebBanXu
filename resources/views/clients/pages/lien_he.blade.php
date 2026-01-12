@@ -7,32 +7,39 @@
     <div class="top-navbar border-bottom d-flex align-items-center px-3">
         <div class="d-flex align-items-center">
             @if(Auth::check())
-                <button class="btn btn-sm btn-light border me-3">
-                    <i class="fas fa-wallet text-primary"></i> Ví: {{ number_format($user->balance) }}đ
-                </button>
+            <button class="btn btn-sm btn-light border me-3">
+                <i class="fas fa-wallet text-primary"></i> Ví: {{ number_format($user->balance) }}đ
+            </button>
             @endif
         </div>
 
         <div class="ms-auto">
             @if(Auth::check())
-                <div class="user-info d-flex align-items-center dropdown">
-                    <div class="d-flex align-items-center cursor-pointer" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{{ asset('storage/'. $user->avatar) }}" class="rounded-circle me-2" style="width: 30px; height:30px; object-fit: cover;">
-                        <strong class="me-1">{{ $user->username }}</strong>
-                        <i class="fas fa-caret-down small"></i>
-                    </div>
-                    <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-3">
-                        <li><a class="dropdown-item py-2" href="{{ route('profile') }}"><i class="fas fa-user-circle me-2"></i> Trang cá nhân</a></li>
-                        <li><a class="dropdown-item py-2" href="{{ route('password.change') }}"><i class="fas fa-key me-2"></i> Đổi mật khẩu</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item py-2 text-danger" href="{{ route('logout') }}"><i class="fas fa-sign-out-alt me-2"></i> Đăng xuất</a></li>
-                    </ul>
+            <div class="user-info d-flex align-items-center dropdown">
+                <div class="d-flex align-items-center cursor-pointer" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="{{ asset('storage/'. $user->avatar) }}" class="rounded-circle me-2" style="width: 30px; height:30px; object-fit: cover;">
+                    <strong class="me-1">{{ $user->username }}</strong>
+                    <i class="fas fa-caret-down small"></i>
                 </div>
+                <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-3">
+                    <li><a class="dropdown-item py-2" href="{{ route('profile') }}"><i class="fas fa-user-circle me-2"></i> Trang cá nhân</a></li>
+                    <li><a class="dropdown-item py-2" href="{{ route('password.change') }}"><i class="fas fa-key me-2"></i> Đổi mật khẩu</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item py-2 text-danger" href="{{ route('logout') }}"><i class="fas fa-sign-out-alt me-2"></i> Đăng xuất</a></li>
+                </ul>
+            </div>
             @else
-                <div class="d-flex gap-2">
-                    <a href="{{ route('login') }}" class="btn btn-sm btn-primary fw-bold px-3 shadow-sm" style="border-radius: 30px;">ĐĂNG NHẬP</a>
-                    <a href="{{ route('register') }}" class="btn btn-sm btn-outline-primary fw-bold px-3" style="border-radius: 30px;">ĐĂNG KÝ</a>
-                </div>
+            <div class="dropdown">
+                <button class="btn btn-sm btn-primary dropdown-toggle fw-bold px-3" type="button" id="guestMenu" data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 30px;">
+                    <i class="fas fa-user-circle me-1"></i> TÀI KHOẢN
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" aria-labelledby="guestMenu">
+                    <li><a class="dropdown-item py-2" href="{{ route('login') }}"><i class="fas fa-sign-in-alt me-2 text-primary"></i> Đăng nhập</a></li>
+                    <li><a class="dropdown-item py-2" href="{{ route('register') }}"><i class="fas fa-user-plus me-2 text-success"></i> Đăng ký</a></li>
+                </ul>
+            </div>
             @endif
         </div>
     </div>
@@ -92,7 +99,7 @@
                     <div class="card-body p-4">
                         <h6 class="fw-bold mb-3 text-uppercase text-primary small"><i class="fas fa-check-circle me-2"></i>Thông tin bảo hành</h6>
                         <p class="text-muted small">Chúng tôi cam kết cung cấp dịch vụ tốt nhất. Dưới đây là các mốc thời gian bảo hành:</p>
-                        
+
                         <div class="row mt-4">
                             <div class="col-md-6 mb-3">
                                 <div class="p-3 bg-light rounded-3 border-start border-primary border-4 shadow-sm">

@@ -112,29 +112,46 @@
 </div>
 
 <div class="modal fade" id="confirmBuyModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg">
-            <div class="modal-header bg-warning py-3">
-                <h5 class="modal-title fw-bold text-uppercase"><i class="fas fa-check-circle me-2"></i>Xác nhận đơn hàng</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 400px;">
+        <div class="modal-content border-0 shadow-2xl rounded-5 overflow-hidden">
+            <div class="modal-header border-0 bg-white pt-4 px-4 pb-2">
+                <h5 class="modal-title fw-bolder text-dark" style="letter-spacing: -0.5px;">Xác nhận đơn hàng</h5>
+                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body p-4 text-center">
-                <p class="text-muted mb-1 small text-uppercase">Bạn đang thực hiện mua sản phẩm:</p>
-                <h5 id="modalProdName" class="fw-bold text-primary mb-4">...</h5>
-                <div class="bg-light p-3 rounded-3 border mb-3 text-start">
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Tổng thanh toán:</span>
-                        <strong id="modalProdPrice" class="text-danger fs-5">0đ</strong>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span>Hình thức:</span>
-                        <strong class="text-dark italic">Ví tài khoản</strong>
+            
+            <div class="modal-body px-4 pt-0">
+                <div class="text-center my-3">
+                    <div class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 rounded-circle" style="width: 80px; height: 80px;">
+                        <i class="fas fa-wallet text-primary fs-2"></i>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer border-0 p-3">
-                <button type="button" class="btn btn-light fw-bold px-4" data-bs-dismiss="modal">HỦY</button>
-                <button type="button" class="btn btn-warning fw-bold px-4 shadow-sm" onclick="submitPurchase()">XÁC NHẬN MUA</button>
+
+                <div class="text-center mb-4">
+                    <p class="text-muted small mb-1">Sản phẩm bạn đã chọn</p>
+                    <h5 id="modalProdName" class="fw-bold text-dark px-3">Tên sản phẩm cao cấp</h5>
+                </div>
+
+                <div class="p-3 rounded-4 border border-dashed border-2 bg-light mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="text-secondary small">Phương thức</span>
+                        <span class="badge bg-white text-dark shadow-sm rounded-pill px-3 py-2 fw-normal italic">
+                            <i class="fas fa-coins text-warning me-1"></i> Ví tài khoản
+                        </span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-10">
+                        <span class="text-secondary small">Tổng cộng</span>
+                        <span id="modalProdPrice" class="fw-bolder text-primary fs-4">500.000đ</span>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <button type="button" class="btn btn-primary w-100 py-3 fw-bold rounded-4 shadow-primary mb-2" onclick="submitPurchase()">
+                        XÁC NHẬN MUA
+                    </button>
+                    <button type="button" class="btn btn-link w-100 text-muted text-decoration-none small fw-medium" data-bs-dismiss="modal">
+                        Hủy giao dịch
+                    </button>
+                </div>
             </div>
         </div>
     </div>

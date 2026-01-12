@@ -184,28 +184,43 @@
 </div>
 
 <div class="modal fade" id="confirmBuyModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
-            <div class="modal-header bg-warning py-3" style="border-radius: 20px 20px 0 0;">
-                <h5 class="modal-title fw-bold text-uppercase mx-auto"><i class="fas fa-check-circle me-2"></i>Xác nhận mua</h5>
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 380px;">
+        <div class="modal-content border-0 shadow-2xl" style="border-radius: 24px;">
+            
+            <div class="modal-header border-0 pt-4 px-4 pb-0">
+                <h5 class="modal-title fw-bolder text-dark mx-auto ps-3">
+                    <i class="fas fa-shopping-cart text-primary me-2"></i>Xác nhận đơn hàng
+                </h5>
+                <button type="button" class="btn-close ms-0 shadow-none" data-bs-dismiss="modal" aria-label="Close" style="font-size: 0.8rem;"></button>
             </div>
+
             <div class="modal-body p-4 text-center">
-                <p class="text-muted mb-1 small">SẢN PHẨM:</p>
-                <h5 id="modalProdName" class="fw-bold text-primary mb-4">Tên sản phẩm</h5>
-                <div class="bg-light p-3 rounded-3 border mb-3 text-start">
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Thanh toán:</span>
-                        <strong id="modalProdPrice" class="text-danger">0đ</strong>
+                <p class="text-muted mb-2 small text-uppercase fw-bold" style="letter-spacing: 1px;">Sản phẩm</p>
+                <h5 id="modalProdName" class="fw-bold text-dark mb-4 px-2" style="line-height: 1.4;">Tên sản phẩm</h5>
+                
+                <div class="p-3 mb-4" style="background-color: #f8f9fa; border-radius: 18px; border: 1px solid rgba(0,0,0,0.03);">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-secondary small">Hình thức</span>
+                        <span class="badge rounded-pill bg-white text-dark shadow-sm py-2 px-3 fw-medium">
+                            <i class="fas fa-coins text-warning me-1"></i> Ví tài khoản
+                        </span>
                     </div>
-                    <div class="d-flex justify-content-between">
-                        <span>Hình thức:</span>
-                        <strong class="text-dark">Ví tài khoản</strong>
+                    <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-10">
+                        <span class="text-secondary small">Tổng thanh toán</span>
+                        <strong id="modalProdPrice" class="text-primary fs-4 fw-bolder">0đ</strong>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer border-0 p-3">
-                <button type="button" class="btn btn-light fw-bold px-4" data-bs-dismiss="modal">HỦY</button>
-                <button type="button" class="btn btn-warning fw-bold px-4 shadow-sm" onclick="submitPurchase()">XÁC NHẬN MUA</button>
+
+                <div class="d-grid gap-2">
+                    <button type="button" class="btn btn-primary btn-lg fw-bold shadow-primary py-3" 
+                            style="border-radius: 15px; border: none; font-size: 1rem; transition: 0.3s;"
+                            onclick="submitPurchase()">
+                        XÁC NHẬN MUA
+                    </button>
+                    <button type="button" class="btn btn-link text-muted text-decoration-none fw-semibold pt-2" data-bs-dismiss="modal">
+                        Hủy giao dịch
+                    </button>
+                </div>
             </div>
         </div>
     </div>

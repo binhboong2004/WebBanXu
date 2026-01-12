@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\FinanceController;
+use App\Http\Controllers\ChatbotController;
 
 Route::get('/', [ProfileController::class, 'home'])->name('home');
 
@@ -102,3 +103,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
         Route::get('/receipt-detail', [FinanceController::class, 'receipt_detail'])->name('receipt_detail');
     });
 });
+
+//Chatbot
+Route::post('/chatbot/ask', [ChatbotController::class, 'ask']);
